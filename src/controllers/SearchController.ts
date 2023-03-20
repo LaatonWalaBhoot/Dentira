@@ -34,7 +34,6 @@ export default class SearchController extends BaseController {
         }
 
         return Promise.all([
-            amazonService.getResults(query),
             flipkartService.getResults(query),
             chromaService.getResults(query),
             relianceService.getResults(query)
@@ -46,9 +45,7 @@ export default class SearchController extends BaseController {
 
     private formatSearchResponse(storeList: StoreList[]) {
         const searchResponse = <SearchResponse>{results: <StoreList>{}}
-        for (const list of storeList) {
-            Object.assign(searchResponse.results, list)
-        }
+        storeList.forEach(list => Object.assign(searchResponse.results, list))
         return searchResponse
     }
 }
