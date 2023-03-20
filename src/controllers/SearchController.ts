@@ -5,6 +5,7 @@ import ChromaService from "../services/ChromaService";
 import RelianceService from "../services/RelianceService";
 import {amazonService, chromaService, flipkartService, relianceService} from "../services";
 import {FastifyReply} from "fastify";
+import {SearchResponse, StoreList} from "../data/model/response/CommonResponse";
 
 export default class SearchController extends BaseController {
 
@@ -32,13 +33,15 @@ export default class SearchController extends BaseController {
             flipkartService.getResults(query),
             chromaService.getResults(query),
             relianceService.getResults(query)
-        ]).then((results) => this.formatSearchResponse())
+        ]).then((results) => this.formatSearchResponse(results))
             .then(result => this.ok(res, result))
             .catch(err => this.fail(res, err))
 
     }
 
-    private formatSearchResponse() {
-
+    private formatSearchResponse(storeList: StoreList[]) {
+        return <SearchResponse> {
+            results: storeList[0]
+        }
     }
 }
