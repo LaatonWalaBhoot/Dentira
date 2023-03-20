@@ -40,8 +40,10 @@ export default class SearchController extends BaseController {
     }
 
     private formatSearchResponse(storeList: StoreList[]) {
-        return <SearchResponse> {
-            results: storeList[0]
+        const searchResponse = <SearchResponse>{results: <StoreList>{}}
+        for (const list of storeList) {
+            Object.assign(searchResponse.results, list)
         }
+        return searchResponse
     }
 }
