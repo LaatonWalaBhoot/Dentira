@@ -34,6 +34,7 @@ export default class SearchController extends BaseController {
         }
 
         return Promise.all([
+            amazonService.getResults(query),
             flipkartService.getResults(query),
             chromaService.getResults(query),
             relianceService.getResults(query)
