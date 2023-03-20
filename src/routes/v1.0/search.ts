@@ -8,7 +8,7 @@ export default (fastify: FastifyInstance,options: FastifyPluginOptions, done: Fu
         "/search",
         async (request, reply) => {
             const {q} = request.query;
-            return await searchController.getSearchResults(q)
+            return await searchController.getSearchResults(q, reply)
         })
 
     done()
