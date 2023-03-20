@@ -1,4 +1,7 @@
 import fastify from 'fastify';
+import routes from "./src/routes/index"
+
+const apiPrefix = "/dentira/"
 
 // Initialising fastify app with config
 const app = fastify({
@@ -14,6 +17,7 @@ const app = fastify({
 if (console.log) console.log = (...args) => app.log.info(args)
 if (console.error) console.error = (...args) => app.log.error(args)
 
+routes(app, apiPrefix);
 
 // Healthiness probe
 app.get("/health", (_, reply) => reply.send("Welcome to the Store...."));
