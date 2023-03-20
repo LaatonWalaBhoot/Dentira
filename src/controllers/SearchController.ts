@@ -6,6 +6,7 @@ import RelianceService from "../services/RelianceService";
 import {amazonService, chromaService, flipkartService, relianceService} from "../services";
 import {FastifyReply} from "fastify";
 import {SearchResponse, StoreList} from "../data/model/response/CommonResponse";
+import _ from "lodash"
 
 export default class SearchController extends BaseController {
 
@@ -28,6 +29,10 @@ export default class SearchController extends BaseController {
     }
 
     public async getSearchResults(query: String, res: FastifyReply) {
+        if(_.isEmpty(query)) {
+            return this.badRequest(res, "No search query specified")
+        }
+
         return Promise.all([
             amazonService.getResults(query),
             flipkartService.getResults(query),
