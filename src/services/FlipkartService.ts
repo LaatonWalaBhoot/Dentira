@@ -1,11 +1,17 @@
 import {Product, StoreList} from "../data/model/response/CommonResponse";
-import axios from "axios";
+import {AxiosInstance} from "axios";
 import {load} from "cheerio";
 
 export default class FlipkartService {
 
+    private httpClient: AxiosInstance
+
+    constructor(httpClient: AxiosInstance) {
+        this.httpClient = httpClient
+    }
+
     async getResults(query: String) {
-        const response = await axios.get(`https://www.flipkart.com/search?q=${query}&marketplace=FLIPKART`);
+        const response = await this.httpClient.get(`https://www.flipkart.com/search?q=${query}&marketplace=FLIPKART`);
 
         const html = response.data;
         const $ = load(html);

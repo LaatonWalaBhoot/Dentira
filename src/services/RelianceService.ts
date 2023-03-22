@@ -1,15 +1,21 @@
 import {Product, StoreList} from "../data/model/response/CommonResponse";
-import axios from "axios";
+import {AxiosInstance} from "axios";
 import {load} from "cheerio";
 import _ from "lodash"
 
 export default class RelianceService {
 
+    private httpClient: AxiosInstance
+
+    constructor(httpClient: AxiosInstance) {
+        this.httpClient = httpClient
+    }
+
     async getResults(query: String) {
-        const response = await axios.get(`https://www.reliancedigital.in/rildigitalws/v2/rrldigital/products/suggestions?term=${query}`);
+        const response = await this.httpClient.get(`https://www.reliancedigital.in/rildigitalws/v2/rrldigital/products/suggestions?term=${query}`);
         let html = response.data;
 
-        const redirectedResponse = await axios.get(`https://www.reliancedigital.in/${html.redirectUrlForTerm}`)
+        const redirectedResponse = await this.httpClient.get(`https://www.reliancedigital.in/${html.redirectUrlForTerm}`)
         html = redirectedResponse.data
 
         const $ = load(html);

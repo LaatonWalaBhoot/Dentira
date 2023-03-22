@@ -1,10 +1,16 @@
 import {Product, StoreList} from "../data/model/response/CommonResponse";
-import axios from "axios";
+import {AxiosInstance} from "axios";
 
 export default class ChromaService {
 
+    private httpClient: AxiosInstance
+
+    constructor(httpClient: AxiosInstance) {
+        this.httpClient = httpClient
+    }
+
     async getResults(query: String) {
-        const response = await axios.get(`https://api.croma.com/product/allchannels/v1/search?currentPage=0&query=${query}`);
+        const response = await this.httpClient.get(`https://api.croma.com/product/allchannels/v1/search?currentPage=0&query=${query}`);
         const results: Product[] = [];
 
         response.data.products.forEach((product: any) => {

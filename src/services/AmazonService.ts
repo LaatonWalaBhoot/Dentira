@@ -1,11 +1,18 @@
 import {Product, StoreList} from "../data/model/response/CommonResponse";
 import {load} from "cheerio"
-import axios from "axios"
+import {AxiosInstance} from "axios"
 
 export default class AmazonService {
 
+    private httpClient: AxiosInstance
+
+    constructor(httpClient: AxiosInstance) {
+        this.httpClient = httpClient
+    }
+
     async getResults(query: String) {
-        const response = await axios.get(`https://www.amazon.com/s?k=${query}&crid=2TI42LNY7WIN1&ref=nb_sb_noss_2`);
+
+        const response = await this.httpClient.get(`https://www.amazon.com/s?k=${query}&crid=2TI42LNY7WIN1&ref=nb_sb_noss_2`);
 
         const html = response.data;
         const $ = load(html);

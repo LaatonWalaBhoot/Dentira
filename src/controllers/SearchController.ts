@@ -34,10 +34,10 @@ export default class SearchController extends BaseController {
         }
 
         return Promise.all([
-            amazonService.getResults(query),
-            flipkartService.getResults(query),
-            chromaService.getResults(query),
-            relianceService.getResults(query)
+            amazonService.getResults(query).catch(() => <StoreList>{}),
+            flipkartService.getResults(query).catch(() => <StoreList>{}),
+            chromaService.getResults(query).catch(() => <StoreList>{}),
+            relianceService.getResults(query).catch(() => <StoreList>{})
         ]).then((results) => this.formatSearchResponse(results))
             .then(result => this.ok(res, result))
             .catch(err => this.fail(res, err))
